@@ -96,11 +96,56 @@ pa = (3, 'a')
 sumLa :: (Int, Int) -> Int
 sumLa (x, y) = x + y
 
-hello1 :: [Char]
-hello1 = ['H', 'e', 'l', 'l', 'o']
+data BookInfo     = Book Int String [String] deriving (Show)
+data MagazineInfo = Magazine Int String [String] deriving (Show)
 
-hello2 :: String
-hello2 = "Hello"
+myBook = Book 1 "Harry Potter" ["R.W. Rowling", "John Johnson"]
 
-hello3 :: Char
-hello3 = "Hello small cat" !! 3 
+---------------------------------------------------------------
+data FailableDouble = Failed
+                    | Ok Double
+                    deriving Show
+
+safeDiv :: Double -> Double -> FailableDouble
+safeDiv _ 0 = Failed
+safeDiv x y = Ok (x/y)
+
+failureToZero :: FailableDouble -> Double
+failureToZero Failed = 0
+failureToZero (Ok x) = x
+---------------------------------------------------------------
+data Thing = Shoe
+           | Pencil
+           | Sword
+           | Calculator
+           | Unicorn
+           deriving Show
+
+type Name = String
+type Age = Int
+type FavoritThing = Thing
+
+data Person = Person Name Age FavoritThing deriving Show
+
+tom :: Person
+tom = Person "Tom Cruise" 55 Sword
+
+yvonne :: Person
+yvonne = Person "Yvonne Strahowski" 36 Unicorn
+
+getAge :: Person -> Age
+getAge (Person _ a _) = a
+
+baz :: Person -> String
+baz p@(Person n _ _) = "The name for " ++ show p ++ " is " ++ n
+---------------------------------------------------------------
+data IntList = Empty | Lala Int IntList
+    deriving Show
+
+intListProd :: IntList -> Int
+intListProd Empty      = 1
+intListProd (Lala x l) = x * intListProd l
+-- intListProd (Lala 2 (Lala 3 (Lala 5 (Empty))))
+-- 30
+---------------------------------------------------------------
+
