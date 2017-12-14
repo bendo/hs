@@ -1,0 +1,56 @@
+name:                spock-rest
+version:             0.1.0.0
+github:              bendo/spock-rest
+license:             BSD3
+author:              bendo
+maintainer:          zdeno.osina@gmail.com
+copyright:           Copyright (c) 2018 Zdeno Osina
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on Github at <https://github.com/bendo/spock-rest#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- Spock
+- aeson
+- text
+- monad-logger
+- persistent
+- persistent-sqlite
+- persistent-template
+- http-types
+
+library:
+  source-dirs: src
+
+executables:
+  spock-rest-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - spock-rest
+
+tests:
+  spock-rest-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - spock-rest

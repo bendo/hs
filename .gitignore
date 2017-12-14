@@ -2,3 +2,6 @@
 *.hi
 *.swp
 *.prof
+*.cabal
+.stack-work/
+*.db
