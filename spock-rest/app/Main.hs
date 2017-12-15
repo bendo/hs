@@ -1,14 +1,14 @@
-{-# LANGUAGE DeriveGeneric              #-}
-{-# LANGUAGE OverloadedStrings          #-}
-{-# LANGUAGE EmptyDataDecls             #-}
-{-# LANGUAGE FlexibleContexts           #-}
-{-# LANGUAGE FlexibleInstances          #-}
-{-# LANGUAGE GADTs                      #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE EmptyDataDecls #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE MultiParamTypeClasses      #-}
-{-# LANGUAGE QuasiQuotes                #-}
-{-# LANGUAGE TemplateHaskell            #-}
-{-# LANGUAGE TypeFamilies               #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeFamilies #-}
 
 import Web.Spock
 import Web.Spock.Config
@@ -17,12 +17,12 @@ import Data.Monoid ((<>))
 import Data.Text (Text, pack)
 import GHC.Generics
 
-import           Control.Monad.Logger       (LoggingT, runStdoutLoggingT)
-import           Database.Persist           hiding (get,delete) -- To avoid a naming clash with Web.Spock.get
-import qualified Database.Persist           as P                -- We'll be using P.get later for GET /people/<id>.
-import           Database.Persist.Sqlite    hiding (get,delete)
-import           Database.Persist.TH
-import           Network.HTTP.Types.Status
+import Control.Monad.Logger (LoggingT, runStdoutLoggingT)
+import Database.Persist hiding (get,delete)
+import qualified Database.Persist as P
+import Database.Persist.Sqlite hiding (get,delete)
+import Database.Persist.TH
+import Network.HTTP.Types.Status
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 Person json
@@ -51,8 +51,12 @@ app = do
     get ("people" <//> var) $ \personId -> do
         maybePerson <- runSQL $ P.get personId :: ApiAction (Maybe Person)
         case maybePerson of
-            Nothing -> errorJson 2 "Could not find a person with matching id"
-            Just thePerson -> json thePerson
+            Nothing -> do
+                setStatus status404
+                errorJson 2 "Could not find a person with matching id"
+            Just thePerson -> do
+                setStatus status200
+                json thePerson
     post "people" $ do
         maybePerson <- jsonBody :: ApiAction (Maybe Person)
         case maybePerson of
@@ -69,8 +73,11 @@ app = do
     put ("people" <//> var) $ \personId -> do
         maybePerson <- jsonBody :: ApiAction (Maybe Person)
         case maybePerson of
-            Nothing -> errorJson 1 "Failed to parse request body as Person"
+            Nothing -> do
+                setStatus status400
+                errorJson 1 "Failed to parse request body as Person"
             Just thePerson -> do
+                setStatus status201
                 _ <- runSQL $ P.replace personId thePerson
                 json $ object ["result" .= String "success"]
 
