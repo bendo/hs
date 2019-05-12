@@ -8,8 +8,8 @@ module Lib
     , skew
     ) where
 
-import Data.List (isInfixOf, transpose)
-import Data.Maybe (catMaybes)
+import           Data.List  (isInfixOf, transpose)
+import           Data.Maybe (catMaybes)
 
 type Grid = [String]
 
@@ -17,7 +17,7 @@ outputGrid :: Grid -> IO ()
 outputGrid grid = putStrLn $ formatGrid grid
 
 formatGrid :: Grid -> String
-formatGrid = unlines 
+formatGrid = unlines
 
 getLines :: Grid -> [String]
 getLines grid =
@@ -37,7 +37,7 @@ skew (l:ls) = l : skew (map indent ls)
     where indent line = '_' : line
 
 findWord :: Grid -> String -> Maybe String
-findWord grid word = 
+findWord grid word =
     let lines = getLines grid
         found = or $ map (findWordInLine word) lines
     in if found then Just word else Nothing

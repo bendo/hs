@@ -1,28 +1,28 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE EmptyDataDecls #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE GADTs #-}
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE EmptyDataDecls             #-}
+{-# LANGUAGE FlexibleContexts           #-}
+{-# LANGUAGE FlexibleInstances          #-}
+{-# LANGUAGE GADTs                      #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE QuasiQuotes #-}
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE MultiParamTypeClasses      #-}
+{-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE QuasiQuotes                #-}
+{-# LANGUAGE TemplateHaskell            #-}
+{-# LANGUAGE TypeFamilies               #-}
 
-import Web.Spock
-import Web.Spock.Config
-import Data.Aeson hiding (json)
-import Data.Monoid ((<>))
-import Data.Text (Text, pack)
-import GHC.Generics
+import           Data.Aeson                hiding (json)
+import           Data.Monoid               ((<>))
+import           Data.Text                 (Text, pack)
+import           GHC.Generics
+import           Web.Spock
+import           Web.Spock.Config
 
-import Control.Monad.Logger (LoggingT, runStdoutLoggingT)
-import Database.Persist hiding (get,delete)
-import qualified Database.Persist as P
-import Database.Persist.Sqlite hiding (get,delete)
-import Database.Persist.TH
-import Network.HTTP.Types.Status
+import           Control.Monad.Logger      (LoggingT, runStdoutLoggingT)
+import           Database.Persist          hiding (delete, get)
+import qualified Database.Persist          as P
+import           Database.Persist.Sqlite   hiding (delete, get)
+import           Database.Persist.TH
+import           Network.HTTP.Types.Status
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 Person json
