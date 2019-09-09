@@ -1,0 +1,17 @@
+Data	./src/Data.hs	1
+Grid	./src/Lib.hs	14
+Lib	./src/Lib.hs	1
+Main	./app/Main.hs	1
+diagonalize	./src/Lib.hs	31
+findWord	./src/Lib.hs	39
+findWordInLine	./src/Lib.hs	50
+findWords	./src/Lib.hs	45
+formatGrid	./src/Lib.hs	19
+getLines	./src/Lib.hs	22
+grid	./src/Data.hs	6
+languages	./src/Data.hs	18
+main	./Setup.hs	2
+main	./app/Main.hs	6
+main	./test/Spec.hs	5
+outputGrid	./src/Lib.hs	16
+skew	./src/Lib.hs	34
